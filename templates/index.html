@@ -1,0 +1,165 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Password and PIN Security Calculator</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+
+    <div class="container">
+
+        <header>
+            <h1>Password & PIN Security Calculator</h1>
+            <p>A mathematical approach to password possibilities</p>
+        </header>
+
+        <div class="calculator">
+
+            <h2>Calculate Possibilities</h2>
+
+            <form method="POST">
+
+                <label>Select Calculator</label>
+
+                <select name="type" id="type" onchange="changeOptions()">
+                    <option value="password">Password Calculator</option>
+                    <option value="pin">PIN Calculator</option>
+                </select>
+
+                <label>Enter Length</label>
+
+                <input
+                    type="number"
+                    name="length"
+                    min="1"
+                    max="30"
+                    placeholder="Enter length"
+                    required
+                >
+
+                <div id="passwordOptions">
+
+                    <h3>Character Types</h3>
+
+                    <label class="option">
+                        <input type="checkbox" name="lowercase" checked>
+                        Lowercase Letters (a-z)
+                    </label>
+
+                    <label class="option">
+                        <input type="checkbox" name="uppercase" checked>
+                        Uppercase Letters (A-Z)
+                    </label>
+
+                    <label class="option">
+                        <input type="checkbox" name="numbers" checked>
+                        Numbers (0-9)
+                    </label>
+
+                    <label class="option">
+                        <input type="checkbox" name="symbols">
+                        Special Symbols
+                    </label>
+
+                </div>
+
+                <button type="submit">Calculate</button>
+
+            </form>
+
+            {% if result is not none %}
+
+            <div class="result">
+
+                <h3>Calculation Result</h3>
+
+                {% if result is number %}
+
+                    <p class="formula">
+                        Formula: {{ formula }}
+                    </p>
+
+                    <h2 class="total">
+                        {{ "{:,}".format(result) }}
+                    </h2>
+
+                    <p>Total Possible Passwords / PINs</p>
+
+                    <p class="strength">{{ strength }}</p>
+
+                {% else %}
+
+                    <p>{{ result }}</p>
+
+                {% endif %}
+
+            </div>
+
+            {% endif %}
+
+        </div>
+
+        <div class="information">
+
+            <h2>About This Project</h2>
+
+            <p>
+                This project demonstrates the application of
+                permutations and combinations in password security.
+            </p>
+
+            <h3>Mathematical Formula</h3>
+
+            <p>
+                Total Possibilities = Character Set Size ^ Length
+            </p>
+
+            <h3>Example</h3>
+
+            <p>
+                A 4-digit PIN has 10 possible digits for
+                each position.
+            </p>
+
+            <p>
+                10 × 10 × 10 × 10 = 10,000 possibilities.
+            </p>
+
+        </div>
+
+        <footer>
+            <p>Mathematics Project | Permutations and Combinations</p>
+        </footer>
+
+    </div>
+
+    <script>
+
+        function changeOptions() {
+
+            let type = document.getElementById("type").value;
+
+            let options = document.getElementById("passwordOptions");
+
+            if (type === "pin") {
+                options.style.display = "none";
+            }
+            else {
+                options.style.display = "block";
+            }
+
+        }
+
+        changeOptions();
+
+    </script>
+
+</body>
+</html>
